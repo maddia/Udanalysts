@@ -1,0 +1,74 @@
+# Udanalysts
+Cervical Cancer Project
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Aug 04 13:24:22 2018
+
+@author: Magda
+"""
+
+import os, sys
+import pandas as pd
+import numpy as np
+#change directory
+os.chdir('C:/Users/Magda/Desktop/Hack')
+#get current working directory
+os.getcwd()
+from pandas import read_csv
+data = read_csv('cancer.csv')
+# check how data looks like
+data.info()
+print(data.head())
+print(data.shape)
+print(data.describe())
+print(data.dtypes)
+#CLEANING
+# First I make copy of data
+df= data.copy()
+# changing from '?'
+df= df.replace('?', np.nan)
+# find any Nan values
+print(df.isnull().any())
+print(df.isnull().sum())
+#turn data into numeric type to make sure that all are numeric
+df = df.apply(pd.to_numeric, errors='coerce')
+print(df.dtypes)
+# dealing with NAn values
+df['Number of sexual partners'] = df['Number of sexual partners'].fillna(df['Number of sexual partners'].median())
+df['First sexual intercourse'] = df['First sexual intercourse'].fillna(df['First sexual intercourse'].median())
+df['Num of pregnancies'] = df['Num of pregnancies'].fillna(df['Num of pregnancies'].median())
+df['Smokes'] = df['Smokes'].fillna(1)
+df['Smokes (years)'] = df['Smokes (years)'].fillna(df['Smokes (years)'].median())
+df['Smokes (packs/year)'] = df['Smokes (packs/year)'].fillna(df['Smokes (packs/year)'].median())
+df['Hormonal Contraceptives'] = df['Hormonal Contraceptives'].fillna(1)
+df['Hormonal Contraceptives (years)'] = df['Hormonal Contraceptives (years)'].fillna(df['Hormonal Contraceptives (years)'].median())
+df['IUD'] = df['IUD'].fillna(0)
+df['IUD (years)'] = df['IUD (years)'].fillna(0) 
+df['STDs'] = df['STDs'].fillna(0)
+df['STDs (number)'] = df['STDs (number)'].fillna(df['STDs (number)'].median())
+df['STDs:condylomatosis'] = df['STDs:condylomatosis'].fillna(df['STDs:condylomatosis'].median())
+df['STDs:cervical condylomatosis'] = df['STDs:cervical condylomatosis'].fillna(df['STDs:cervical condylomatosis'].median())
+df['STDs:vaginal condylomatosis'] = df['STDs:vaginal condylomatosis'].fillna(df['STDs:vaginal condylomatosis'].median())
+df['STDs:vulvo-perineal condylomatosis'] = df['STDs:vulvo-perineal condylomatosis'].fillna(df['STDs:vulvo-perineal condylomatosis'].median())
+df['STDs:syphilis'] = df['STDs:syphilis'].fillna(df['STDs:syphilis'].median())
+df['STDs:pelvic inflammatory disease'] = df['STDs:pelvic inflammatory disease'].fillna(df['STDs:pelvic inflammatory disease'].median())
+df['STDs:genital herpes'] = df['STDs:genital herpes'].fillna(df['STDs:genital herpes'].median())
+df['STDs:molluscum contagiosum'] = df['STDs:molluscum contagiosum'].fillna(df['STDs:molluscum contagiosum'].median())
+df['STDs:AIDS'] = df['STDs:AIDS'].fillna(df['STDs:AIDS'].median())
+df['STDs:HIV'] = df['STDs:HIV'].fillna(df['STDs:HIV'].median())
+df['STDs:Hepatitis B'] = df['STDs:Hepatitis B'].fillna(df['STDs:Hepatitis B'].median())
+df['STDs:HPV'] = df['STDs:HPV'].fillna(df['STDs:HPV'].median())
+df['Dx:Cancer'] = df['Dx:Cancer'].fillna(0)
+df['Dx:CIN'] = df['Dx:CIN'].fillna(0)
+df['Dx:HPV'] = df['Dx:HPV'].fillna(0)
+df['Hinselmann'] = df['Hinselmann'].fillna(0)
+df['Citology'] = df['Citology'].fillna(0)
+df['Schiller'] = df['Schiller'].fillna(0)
+# check
+print(df.isnull().sum())
+#drop the columns with too much nan values
+df2 = df.drop(df.columns[[26, 27]], axis=1)
+print(df2.columns)
+df.to_csv('cleancancerdata.csv', encoding='utf8')
+
+
