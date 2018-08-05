@@ -1,0 +1,37 @@
+describe
+*logistic regression with dv=hinselmann
+logit hinselmann age numberofsexualpartners firstsexualintercourse numofpregnancies smokes smokesyears ///
+hormonalcontraceptives hormonalcontraceptivesyears iud iudyears stds stdsnumber stdscondylomatosis ///
+stdscervicalcondylomatosis stdsvaginalcondylomatosis stdsvulvoperinealcondylomatosis stdssyphilis ///
+stdspelvicinflammatorydisease stdsgenitalherpes stdsmolluscumcontagiosum stdsaids stdshiv stdshepatitisb /// 
+stdshpv stdsnumberofdiagnosis dxcancer dxcin dxhpv dx
+*logistic regression with dv=schiller
+logit schiller age numberofsexualpartners firstsexualintercourse numofpregnancies smokes smokesyears ///
+hormonalcontraceptives hormonalcontraceptivesyears iud iudyears stds stdsnumber stdscondylomatosis ///
+stdscervicalcondylomatosis stdsvaginalcondylomatosis stdsvulvoperinealcondylomatosis stdssyphilis ///
+stdspelvicinflammatorydisease stdsgenitalherpes stdsmolluscumcontagiosum stdsaids stdshiv stdshepatitisb /// 
+stdshpv stdsnumberofdiagnosis dxcancer dxcin dxhpv dx
+*logistic regression with dv=citology
+logit citology age numberofsexualpartners firstsexualintercourse numofpregnancies smokes smokesyears ///
+hormonalcontraceptives hormonalcontraceptivesyears iud iudyears stds stdsnumber stdscondylomatosis ///
+stdscervicalcondylomatosis stdsvaginalcondylomatosis stdsvulvoperinealcondylomatosis stdssyphilis ///
+stdspelvicinflammatorydisease stdsgenitalherpes stdsmolluscumcontagiosum stdsaids stdshiv stdshepatitisb /// 
+stdshpv stdsnumberofdiagnosis dxcancer dxcin dxhpv dx
+*logistic regression with dv=biopsy
+logit biopsy age numberofsexualpartners firstsexualintercourse numofpregnancies smokes smokesyears ///
+hormonalcontraceptives hormonalcontraceptivesyears iud iudyears stds stdsnumber stdscondylomatosis ///
+stdscervicalcondylomatosis stdsvaginalcondylomatosis stdsvulvoperinealcondylomatosis stdssyphilis ///
+stdspelvicinflammatorydisease stdsgenitalherpes stdsmolluscumcontagiosum stdsaids stdshiv stdshepatitisb /// 
+stdshpv stdsnumberofdiagnosis dxcancer dxcin dxhpv dx
+tab firstsexualintercourse 
+gen dummy = firstsexualintercourse //1=over 19y/o
+recode dummy (10/19=0) (20/32=1)  
+ttest hinselmann, by (dummy)
+ttest schiller, by (dummy)
+ttest citology, by (dummy)
+ttest biopsy, by (dummy)
+gen newtest = hinselmann + schiller + citology + biopsy
+ttest newtest, by(dummy)
+
+
+
